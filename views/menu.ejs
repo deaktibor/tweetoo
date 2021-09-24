@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="d-flex justify-content-end">
+        <nav class="navbar">
+            <ul class="navbar-nav nav flex-column">
+                <li class="nav-item">
+                    <!-- Home button-->
+                    <a href="/">
+                        <button type="button" class="btn btn-outline-dark menu-btn" ><i class="fas fa-home fa-2x"></i><p>Home</p></button>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <!-- Tweet button-->
+                    <% if (locals.user) { %>
+                        <a href="/tweet">
+                            <button type="button" class="btn btn-outline-dark menu-btn"><i class="fab fa-twitter fa-2x"></i><p>Tweet</p></button>
+                        </a>
+                    <% } else { %>
+                        <button type="button" class="btn btn-outline-dark menu-btn" disabled><i class="fab fa-twitter fa-2x"></i><p>Tweet</p></button>
+                    <% } %>
+                </li>
+                <li class="nav-item">
+                    <!-- Profile button-->
+                    <% if (locals.user) { %>
+                        <a href="/profile">
+                            <button type="button" class="btn btn-outline-dark menu-btn"><i class="fas fa-user fa-2x"></i><p><%=locals.user.nickname%></p></button>
+                        </a>
+                    <% } else { %>
+                        <button type="button" class="btn btn-outline-dark menu-btn" disabled><i class="fas fa-user fa-2x"></i><p>Profile</p></button>
+                    <% } %>
+                </li>
+                <li class="nav-item">
+                    <!-- Search button-->
+                    <% if (locals.user) { %>
+                        <a href="/search">
+                            <button type="button" class="btn btn-outline-dark menu-btn"><i class="fas fa-search fa-2x"></i><p>Search</p></button>
+                        </a>
+                    <% } else { %>
+                        <button type="button" class="btn btn-outline-dark menu-btn" disabled><i class="fas fa-search fa-2x"></i><p>Search</p></button>
+                    <% } %>
+                </li>
+                <li class="nav-item">
+                    <!--Login button-->
+                    <% if (locals.user) { %>
+                        <a href="/logout">
+                            <button type="button" class="btn btn-outline-dark menu-btn"><i class="fas fa-sign-out-alt fa-2x"></i><p>Logout</p></button>
+                        </a>
+                    <% } else { %>
+                        <a href="/login">
+                            <button type="button" class="btn btn-outline-dark menu-btn"><i class="fas fa-sign-in-alt fa-2x"></i><p>Login</p></button>
+                        </a>
+                    <% } %>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+
+
+</div>
+

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<!--header-->
+<%- include('header'); %>
+
+<body class="main-body">
+<div class="container bg-light">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-12 col-lg-4 reg-box">
+            <div class="mb-3 text-center">
+                <h1>Forgot password</h1>
+            </div>
+
+            <form>
+                <div class="mb-3">
+                    <label for="regEmailInput" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="regEmailInput" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3 text-center">
+                    <h5>Or</h5>
+                </div>
+                <div class="mb-3">
+                    <label for="regNickname" class="form-label">Nickname</label>
+                    <input type="text" class="form-control" id="regNickname">
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                    <div class="col text-center">
+                        <button type="reset" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>
+
+<!--footer-->
+<%- include('footer'); %>
+
+</body>
+</html>

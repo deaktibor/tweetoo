@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<!--header-->
+<%- include('header'); %>
+<body class="main-body">
+<div class="container bg-light " >
+    <div class="row">
+        <div class="class col-12 col-md-3">
+            <!--Main menu-->
+            <%- include('menu'); %>
+        </div>
+        <div class="class col-12 col-md-6">
+            <div class="container-fluid">
+                <div class="row">
+                    <% if (locals.matchTweet.id) { %>
+                        <div class="col-8">
+                            <h1>Edit tweet</h1>
+                        </div>
+                    <% }else { %>
+                        <div class="col-8">
+                            <h1>New tweet</h1>
+                        </div>
+                    <%} %>
+                    <div class="col-4">
+                        <div class="d-flex justify-content-end">
+                            <a href="/tweet">
+                                <button type="button" class="btn btn-link"><i class="fas fa-arrow-left fa-3x"></i></button>
+                            </a>
+                        </div>
+                    </div>
+                    <form action="/tweet/add" method="post">
+                        <div class="mb-3">
+                            <label for="tweetFormControlTextarea1" class="form-label">Tweet text:</label>
+                            <textarea class="form-control" name="tweetText" id="tweetFormControlTextarea1" rows="5"><% if (locals.matchTweet.text) { %><%=locals.matchTweet.text%><%} %></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <% if (locals.matchTweet.id) { %>
+                                <div class="col text-center">
+                                    <button formaction="/tweet/edit/<%=locals.matchTweet.id%>" type="submit" name="tweetSaveBtn" class="btn btn-outline-primary">Save</button>
+                                </div>
+                                <div class="col text-center">
+                                    <button formaction="/tweet/edit/<%=locals.matchTweet.id%>" type="submit" name="tweetPublicBtn" class="btn btn-outline-success">Public</button>
+                                </div>
+                            <div class="col text-center">
+                                <a href="/tweet/del/<%=locals.matchTweet.id%>" class="btn btn-outline-danger">Delete</a>
+                            </div>
+                            <% }else { %>
+                                    <div class="col text-center">
+                                        <button type="submit" name="tweetSaveBtn" class="btn btn-outline-primary">Save</button>
+                                    </div>
+                                    <div class="col text-center">
+                                        <button type="submit" name="tweetPublicBtn" class="btn btn-outline-success">Public</button>
+                                    </div>
+                            <%} %>
+                            <div class="col text-center">
+                                <a class="btn btn-outline-warning" href="/tweet" role="button">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Alert render-->
+                <% if (locals.rendAlert) { %>
+                    <div class="d-flex justify-content-center">
+                        <div class="alert <%= locals.rendAlert.type %>" role="alert">
+                            <%= locals.rendAlert.message%>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+            <div class="class col-12 col-md-3">
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<%- include('footer'); %>
+</body>
+</html>
+

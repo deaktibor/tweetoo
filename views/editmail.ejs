@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<!--header-->
+<%- include('header'); %>
+
+<body class="main-body">
+<div class="container bg-light">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-12 col-lg-4 reg-box">
+            <div class="mb-3 text-center">
+                <h1>Change emial</h1>
+            </div>
+
+            <form>
+                <div class="mb-3">
+                    <label for="oldEmailInput" class="form-label">Old email</label>
+                    <input type="email" class="form-control" id="oldEmailInput" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="newEmailInput" class="form-label">New email</label>
+                    <input type="email" class="form-control" id="newEmailInput" aria-describedby="emailHelp">
+                </div>
+                <div class="row mb-3">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                    <div class="col text-center">
+                        <button type="reset" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>
+
+<!--footer-->
+<%- include('footer'); %>
+
+</body>
+</html>

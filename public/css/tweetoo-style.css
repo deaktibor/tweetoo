@@ -1,0 +1,21 @@
+.main-body{
+	background-color:#1DA1F2
+}
+.menu-btn{
+	width:100px;
+	height: 80px;
+	margin: 5% 5% 5% 5%;
+}
+.btn-love{
+	color: red;
+}
+.reg-box{
+	border: solid 1px #1DA1F2;
+	padding: 10px 20px;
+	margin: 50px 10px;
+}
+.log-box{
+	border: solid 1px #1DA1F2;
+	padding: 10px 20px;
+	margin: 50px 10px 1px 10px;
+}

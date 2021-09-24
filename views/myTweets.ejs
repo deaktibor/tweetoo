@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<!--header-->
+<%- include('header'); %>
+<body class="main-body">
+<div class="container bg-light " >
+    <div class="row">
+        <div class="class col-12 col-md-3">
+            <!--Main menu-->
+            <%- include('menu'); %>
+        </div>
+        <div class="class col-12 col-md-6">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-8">
+                        <h1>My tweets</h1>
+                    </div>
+                    <div class="col-4">
+                        <div class="d-flex justify-content-end">
+                            <a href="/tweet/add">
+                                <button type="button" name="tweetAddBtn" class="btn btn-link"><i class="fas fa-plus-circle fa-3x"></i></button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-draft-tab" data-bs-toggle="pill" data-bs-target="#pills-draft" type="button" role="tab" aria-controls="pills-draft" aria-selected="true">
+                            <i class="fas fa-edit"></i>
+                            Draft
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-public-tab" data-bs-toggle="pill" data-bs-target="#pills-public" type="button" role="tab" aria-controls="pills-public" aria-selected="false">
+                            <i class="fas fa-globe-americas"></i>
+                            Public
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-draft" role="tabpanel" aria-labelledby="pills-draft-tab">
+                        <%- include('tweetDraftTemp'); %>
+                    </div>
+                    <div class="tab-pane fade" id="pills-public" role="tabpanel" aria-labelledby="pills-public-tab">
+                        <%- include('tweetPublicTemp'); %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="class col-12 col-md-3">
+
+            </div>
+        </div>
+    </div>
+
+<!--footer-->
+<%- include('footer'); %>
+</body>
+</html>
+
