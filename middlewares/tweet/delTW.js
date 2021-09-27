@@ -12,13 +12,7 @@ module.exports = function (objRepo){
 			return next(new Error('Tweet does not exist'));
 		}else {
 			tweetModel.remove(res.locals.delTweet);
-			db.saveDatabase((err) =>{
-				if (err){
-					return next(err);
-				} else{
-					return next();
-				}
-			})
+			db.saveDatabase(next);
 		}
 	}
 }

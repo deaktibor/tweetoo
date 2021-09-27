@@ -15,8 +15,9 @@ module.exports = function (objRepo){
 		}
 		//Validate registration input data
 		//TODO const {email, password} = req.body;
-		const email = req.body.email;
-		const password = req.body.password;
+		const {email, password} = req.body;
+		/*const email = req.body.email;
+		const password = req.body.password;*/
 		const result = validation.validateLogData({email, password});
 		//Check result
 		if (result.error){

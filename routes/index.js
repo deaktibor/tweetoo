@@ -5,7 +5,7 @@ const logoutMW = require('../middlewares/user/logout');
 const addPrPhotoMW = require('../middlewares/user/addPrPhoto');
 const delPrPhotoMW = require('../middlewares/user/delPrPhoto');
 const matchPassMailMW = require('../middlewares/user/matchPassMail');
-const saveNewMailMW = require('../middlewares/user/saveNewMail');
+const saveEditedUserDataMW = require('../middlewares/user/saveEditedUserData');
 const saveNewPassMW = require('../middlewares/user/saveNewPass');
 const saveRegMW = require('../middlewares/user/saveReg');
 const sendPassMailMW = require('../middlewares/user/sendPassMail');
@@ -13,6 +13,7 @@ const validEditMailMW = require('../middlewares/user/validEditMail');
 const validEditPassMW = require('../middlewares/user/validEditPass');
 const validLogMW = require('../middlewares/user/validLog');
 const validRegMW = require('../middlewares/user/validReg');
+const validForgotPassMW = require('../middlewares/user/validForgotPass')
 
 //Tweet middleware
 const addTwMW = require('../middlewares/tweet/addTw');
@@ -25,18 +26,21 @@ const delUserTwMW =require('../middlewares/tweet/delUserTwId');
 const delTwMW = require('../middlewares/tweet/delTW');
 const publicTwMW = require('../middlewares/tweet/publicTw');
 const editTwMW = require('../middlewares/tweet/editTW');
-const updateTwMW = require('../middlewares/tweet/updateTW')
-const findMyTwMW = require('../middlewares/tweet/findMyTw')
+const updateTwMW = require('../middlewares/tweet/updateTW');
+const findMyTwMW = require('../middlewares/tweet/findMyTw');
+const loveTwMW	= require('../middlewares/tweet/loveTw');
+const matchTwLoveMW = require('../middlewares/tweet/matchTwLove')
 
 //General middleware
 const renderMW = require('../middlewares/render');
 const searchMW = require('../middlewares/search');
 const errorHandlerMW = require('../middlewares/errorHandler');
-const sessionMW	= require('../middlewares/sessionHandler')
+const sessionMW	= require('../middlewares/sessionHandler');
+const testMW = require('../middlewares/testMW');
 
 //Validation service
 const validation = require('../services/validation');
-//ID ggenerator sevice
+//ID generator sevice
 const id = require('../services/id')
 
 module.exports = function (app, db, userModel, tweetModel) {
@@ -48,42 +52,42 @@ module.exports = function (app, db, userModel, tweetModel) {
 		id
 	};
 
-		//Fooldal (home screen|
+		//**Fooldal (home screen|
 		app.get('/',
 			authMW(objRepo),
 			findMyTwMW(objRepo),
 			renderMW(objRepo, 'index'));
 
-		//Registracio screen
+		//**Registracio screen
 		app.get('/reg',
 			renderMW(objRepo, 'registration'));
-		//Registracio
+		//**Registracio
 		app.post('/reg',
 			validRegMW(objRepo),
 			saveRegMW(objRepo),
 			(req, res, next) => res.redirect('/'));
 
-		//Login screen
+		//**Login screen
 		app.get('/login',
 			renderMW(objRepo, 'login'));
-		//Login
+		//**Login
 		app.post('/login',
 			validLogMW(objRepo),
 			sessionMW(objRepo),
 			(req, res, next) => res.redirect('/'));
 
-		//Tweets screen
+		//**Tweets screen
 		app.get('/tweet',
 			authMW(objRepo),
 			readPrTwMW(objRepo),
 			renderMW(objRepo, 'myTweets'));
 
-		//Tweet screen (new/add, edit|
+		//**Tweet screen (new/add, edit|
 		app.get('/tweet/add',
 			authMW(objRepo),
 			//matchTwMW(objRepo),
 			renderMW(objRepo, 'tweet'));
-		//Tweet add/new
+		//**Tweet add/new
 		app.post('/tweet/add',
 			authMW(objRepo),
 			validTwMW(objRepo),
@@ -93,7 +97,7 @@ module.exports = function (app, db, userModel, tweetModel) {
 			sessionMW(objRepo),
 			(req, res, next) => res.redirect('/tweet'));
 
-		//Tweet torlese del
+		//**Tweet torlese del
 		app.get('/tweet/del/:id',
 			authMW(objRepo),
 			delTwMW(objRepo),
@@ -101,18 +105,18 @@ module.exports = function (app, db, userModel, tweetModel) {
 			sessionMW(objRepo),
 			(req, res, next) => res.redirect('/tweet'));
 
-		//Tweet publikalas public
+		//**Tweet publikalas public
 		app.get('/tweet/public/:id',
 			authMW(objRepo),
 			publicTwMW(objRepo),
 			(req, res) => res.redirect('/tweet'));
 
-		//Tweet modositas screen (edit tweet)
+		//**Tweet modositas screen (edit tweet)
 		app.get('/tweet/edit/:id',
 			authMW(objRepo),
 			matchTwMW(objRepo),
 			renderMW(objRepo, 'tweet'));
-		//Tweet modositas
+		//**Tweet modositas
 		app.post('/tweet/edit/:id',
 			authMW(objRepo),
 			matchTwMW(objRepo),
@@ -121,12 +125,19 @@ module.exports = function (app, db, userModel, tweetModel) {
 			updateTwMW(objRepo),
 			(req, res) => res.redirect('/tweet'));
 
-			//TODO Implemented
-		//Profil screen (fiok)
+		//**Tweet love
+		app.post('/tweet/love/:id',
+			authMW(objRepo),
+			matchTwLoveMW(objRepo),
+			loveTwMW(objRepo),
+			(req, res) => res.redirect('/'));
+
+		//**Profil screen (fiok)
 		app.get('/profile',
 			authMW(objRepo),
 			renderMW(objRepo, 'profile'));
 
+	//TODO Implemented
 		//Profil foto hozaadasa (add profile photo)
 		app.get('/profile/addphoto',
 			authMW(objRepo),
@@ -149,41 +160,48 @@ module.exports = function (app, db, userModel, tweetModel) {
 			searchMW(objRepo),
 			renderMW(objRepo, 'search'));
 
-		//Elfelejtett jelszó keresése screen
+		//**Elfelejtett jelszó keresése screen
 		app.get('/forgotpass',
 			renderMW(objRepo, 'forgotpass'));
-		//Elfelejtett jelszó keresése
+		//**Elfelejtett jelszó keresése
 		app.post('/forgotpass',
+			validForgotPassMW(objRepo),
 			matchPassMailMW(objRepo),
 			sendPassMailMW(objRepo),
-			renderMW(objRepo, 'index'));
+			(req, res) => res.redirect('/'));
 
-		//Email cím módosítása screen
+		//**Email cím módosítása screen
 		app.get('/profile/editmail',
 			authMW(objRepo),
 			renderMW(objRepo, 'editmail'));
-		//Email cím módosítása
-		app.post('profile/editmail',
+		//**Email cím módosítása
+		app.post('/profile/editmail',
 			authMW(objRepo),
 			validEditMailMW(objRepo),
-			saveNewMailMW(objRepo),
-			renderMW(objRepo, 'profile'));
+			saveEditedUserDataMW(objRepo),
+			sessionMW(objRepo),
+			(req, res) => res.redirect('/profile'));
 
-		//Jelszó módosítasa screen
+		//**Jelszó módosítasa screen
 		app.get('/profile/editpass',
 			authMW(objRepo),
 			renderMW(objRepo, 'editpass'));
-		//Jelszó módosítasa
+		//**Jelszó módosítasa
 		app.post('/profile/editpass',
 			authMW(objRepo),
 			validEditPassMW(objRepo),
-			saveNewPassMW(objRepo),
-			renderMW(objRepo, 'profile'));
+			saveEditedUserDataMW(objRepo),
+			(req, res) => res.redirect('/profile'));
 
-		//Kijelentkezes (logout)
+		//**Kijelentkezes (logout)
 		app.get('/logout',
 			logoutMW(objRepo),
 			(req, res) => res.redirect('/'));
+
+	//test MW
+	app.get('/test',
+		testMW(objRepo));
+		//(req, res) => res.redirect('/'));
 
 		//General error handling for all middleware chain
 		app.use(errorHandlerMW());

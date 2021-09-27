@@ -6,12 +6,6 @@ module.exports = function (objRepo){
 		userData.tweet.push(res.locals.newTweetModel.id);
 		userModel.update(userData);
 
-		db.saveDatabase((err) =>{
-			if (err){
-				return next(err);
-			} else{
-				return next();
-			}
-		})
+		db.saveDatabase(next);
 	}
 }

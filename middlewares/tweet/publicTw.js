@@ -14,13 +14,7 @@ module.exports = function (objRepo){
 			let tweetPublic = {...tweetForPublic, isPublic: true, publicTimestamp: Date.now()}
 			tweetModel.update(tweetPublic);
 
-			db.saveDatabase((err) =>{
-				if (err){
-					return next(err);
-				} else{
-					return next();
-				}
-			})
+			db.saveDatabase(next);
 		}
 	}
 }

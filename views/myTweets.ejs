@@ -39,10 +39,19 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-draft" role="tabpanel" aria-labelledby="pills-draft-tab">
-                        <%- include('tweetDraftTemp'); %>
+                        <% tweets.forEach(function(tweet){ %>
+                            <% if (tweet.isPublic === false) { %>
+                                <%- include('tweetMyTemp',{tweet}); %>
+                            <%} %>
+                        <% }); %>
                     </div>
                     <div class="tab-pane fade" id="pills-public" role="tabpanel" aria-labelledby="pills-public-tab">
-                        <%- include('tweetPublicTemp'); %>
+                        <% tweets.forEach(function(tweet){ %>
+                            <% tweet.loveCount = tweet.love_id.length;%>
+                            <% if (tweet.isPublic === true) { %>
+                                <%- include('tweetMyTemp',{tweet}); %>
+                            <%} %>
+                        <% }); %>
                     </div>
                 </div>
             </div>

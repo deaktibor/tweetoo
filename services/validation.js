@@ -69,3 +69,70 @@ function validateTweetText({tweetText}) {
 	return schemaTweet.validate({tweetText});
 }
 module.exports.validateTweetText = validateTweetText;
+
+/**
+ * Change mail validate
+ * @param oldEmail
+ * @param newEmail
+ * @returns {Joi.ValidationResult}
+ */
+function validateEditEmail({oldEmail, newEmail}){
+
+	const schemaEditEmail = Joi.object({
+
+		oldEmail: Joi.string()
+			.email({ minDomainSegments: 2 })
+			.lowercase()
+			.required(),
+
+		newEmail: Joi.string()
+			.email({ minDomainSegments: 2 })
+			.lowercase()
+			.required(),
+	})
+	return schemaEditEmail.validate({oldEmail, newEmail});
+}
+module.exports.validateEditEmail = validateEditEmail;
+
+/**
+ * Change password validate
+ * @param oldPass
+ * @param newPass1
+ * @param newPass2
+ * @returns {Joi.ValidationResult}
+ */
+function validateEditPass({oldPass, newPass1, newPass2}){
+
+	const schemaEditPass = Joi.object({
+
+		oldPass: Joi.string()
+			.pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+			.required(),
+
+		newPass1: Joi.string()
+			.pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+			.required(),
+
+		newPass2: Joi.ref('newPass1')
+	})
+	return schemaEditPass.validate({oldPass, newPass1, newPass2});
+}
+module.exports.validateEditPass = validateEditPass;
+
+/**
+ *
+ * @param email
+ * @returns {Joi.ValidationResult}
+ */
+function validateEmail({email}){
+
+	const schemaEmail = Joi.object({
+
+		email: Joi.string()
+			.email({ minDomainSegments: 2 })
+			.lowercase()
+			.required()
+	})
+	return schemaEmail.validate({email});
+}
+module.exports.validateEmail = validateEmail;

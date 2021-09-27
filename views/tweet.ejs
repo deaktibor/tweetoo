@@ -12,7 +12,7 @@
         <div class="class col-12 col-md-6">
             <div class="container-fluid">
                 <div class="row">
-                    <% if (locals.matchTweet.id) { %>
+                    <% if (matchTweet.id) { %>
                         <div class="col-8">
                             <h1>Edit tweet</h1>
                         </div>
@@ -31,18 +31,18 @@
                     <form action="/tweet/add" method="post">
                         <div class="mb-3">
                             <label for="tweetFormControlTextarea1" class="form-label">Tweet text:</label>
-                            <textarea class="form-control" name="tweetText" id="tweetFormControlTextarea1" rows="5"><% if (locals.matchTweet.text) { %><%=locals.matchTweet.text%><%} %></textarea>
+                            <textarea class="form-control" name="tweetText" id="tweetFormControlTextarea1" rows="5"><% if (matchTweet.text) { %><%=matchTweet.text%><%} %></textarea>
                         </div>
                         <div class="row mb-3">
-                            <% if (locals.matchTweet.id) { %>
+                            <% if (matchTweet.id) { %>
                                 <div class="col text-center">
-                                    <button formaction="/tweet/edit/<%=locals.matchTweet.id%>" type="submit" name="tweetSaveBtn" class="btn btn-outline-primary">Save</button>
+                                    <button formaction="/tweet/edit/<%=matchTweet.id%>" type="submit" name="tweetSaveBtn" class="btn btn-outline-primary">Save</button>
                                 </div>
                                 <div class="col text-center">
-                                    <button formaction="/tweet/edit/<%=locals.matchTweet.id%>" type="submit" name="tweetPublicBtn" class="btn btn-outline-success">Public</button>
+                                    <button formaction="/tweet/edit/<%=matchTweet.id%>" type="submit" name="tweetPublicBtn" class="btn btn-outline-success">Public</button>
                                 </div>
                             <div class="col text-center">
-                                <a href="/tweet/del/<%=locals.matchTweet.id%>" class="btn btn-outline-danger">Delete</a>
+                                <a href="/tweet/del/<%=matchTweet.id%>" class="btn btn-outline-danger">Delete</a>
                             </div>
                             <% }else { %>
                                     <div class="col text-center">
@@ -58,14 +58,7 @@
                         </div>
                     </form>
                 </div>
-                <!-- Alert render-->
-                <% if (locals.rendAlert) { %>
-                    <div class="d-flex justify-content-center">
-                        <div class="alert <%= locals.rendAlert.type %>" role="alert">
-                            <%= locals.rendAlert.message%>
-                        </div>
-                    </div>
-                <% } %>
+                <%- include('rendAlert'); %>
             </div>
         </div>
             <div class="class col-12 col-md-3">

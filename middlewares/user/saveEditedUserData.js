@@ -4,7 +4,10 @@
  * @returns {function(*, *, *): *}
  */
 module.exports = function (objRepo){
+	const {db, userModel} = objRepo;
 	return (req, res, next) => {
-		return next();
+		//Update user data
+		userModel.update(res.locals.newUserData);
+		db.saveDatabase(next);
 	}
 }

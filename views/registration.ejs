@@ -37,14 +37,7 @@
                 </div>
             </div>
         </div>
-        <!-- Alert render-->
-        <% if (locals.rendAlert) { %>
-            <div class="d-flex justify-content-center">
-                <div class="alert <%= locals.rendAlert.type %>" role="alert">
-                    <%= locals.rendAlert.message%>
-                </div>
-            </div>
-        <% } %>
+        <%- include('rendAlert'); %>
     </div>
 
     <!--footer-->

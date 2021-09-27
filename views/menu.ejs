@@ -10,7 +10,7 @@
                 </li>
                 <li class="nav-item">
                     <!-- Tweet button-->
-                    <% if (locals.user) { %>
+                    <% if (typeof user !== 'undefined') { %>
                         <a href="/tweet">
                             <button type="button" class="btn btn-outline-dark menu-btn"><i class="fab fa-twitter fa-2x"></i><p>Tweet</p></button>
                         </a>
@@ -20,9 +20,9 @@
                 </li>
                 <li class="nav-item">
                     <!-- Profile button-->
-                    <% if (locals.user) { %>
+                    <% if (typeof user !== 'undefined') { %>
                         <a href="/profile">
-                            <button type="button" class="btn btn-outline-dark menu-btn"><i class="fas fa-user fa-2x"></i><p><%=locals.user.nickname%></p></button>
+                            <button type="button" class="btn btn-outline-dark menu-btn"><i class="fas fa-user fa-2x"></i><p><%= user.nickname%></p></button>
                         </a>
                     <% } else { %>
                         <button type="button" class="btn btn-outline-dark menu-btn" disabled><i class="fas fa-user fa-2x"></i><p>Profile</p></button>
@@ -30,7 +30,7 @@
                 </li>
                 <li class="nav-item">
                     <!-- Search button-->
-                    <% if (locals.user) { %>
+                    <% if (typeof user !== 'undefined') { %>
                         <a href="/search">
                             <button type="button" class="btn btn-outline-dark menu-btn"><i class="fas fa-search fa-2x"></i><p>Search</p></button>
                         </a>
@@ -40,7 +40,7 @@
                 </li>
                 <li class="nav-item">
                     <!--Login button-->
-                    <% if (locals.user) { %>
+                    <% if (typeof user !== 'undefined') { %>
                         <a href="/logout">
                             <button type="button" class="btn btn-outline-dark menu-btn"><i class="fas fa-sign-out-alt fa-2x"></i><p>Logout</p></button>
                         </a>

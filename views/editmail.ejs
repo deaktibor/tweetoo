@@ -13,24 +13,25 @@
                 <h1>Change emial</h1>
             </div>
 
-            <form>
+            <form action="/profile/editmail" method="post">
                 <div class="mb-3">
-                    <label for="oldEmailInput" class="form-label">Old email</label>
-                    <input type="email" class="form-control" id="oldEmailInput" aria-describedby="emailHelp">
+                    <label for="oldEmail" class="form-label">Old email</label>
+                    <input type="email" class="form-control" name="oldEmail" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3">
-                    <label for="newEmailInput" class="form-label">New email</label>
-                    <input type="email" class="form-control" id="newEmailInput" aria-describedby="emailHelp">
+                    <label for="newEmail" class="form-label">New email</label>
+                    <input type="email" class="form-control" name="newEmail" aria-describedby="emailHelp">
                 </div>
                 <div class="row mb-3">
                     <div class="col text-center">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary">Save</button>
                     </div>
                     <div class="col text-center">
-                        <button type="reset" class="btn btn-danger">Cancel</button>
+                        <a href="/profile" role="button" class="btn btn-danger">Cancel</a>
                     </div>
                 </div>
             </form>
+            <%- include('rendAlert'); %>
         </div>
         <div class="col-lg-4"></div>
     </div>

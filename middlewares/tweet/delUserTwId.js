@@ -8,12 +8,6 @@ module.exports = function (objRepo){
 
 		userModel.update(newUserData);
 
-		db.saveDatabase((err) =>{
-			if (err){
-				return next(err);
-			} else{
-				return next();
-			}
-		})
+		db.saveDatabase(next);
 	}
 }

@@ -14,14 +14,7 @@ module.exports = function (objRepo){
 			secret: id.getNewId(),
 			tweet: []
 		});
-		db.saveDatabase((err) =>{
-			if (err){
-				return next(err);
-			} else{
-				return next();
-			}
-		})
-
+		db.saveDatabase(next);
 	}
 }
 

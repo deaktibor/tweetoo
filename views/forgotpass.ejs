@@ -13,27 +13,21 @@
                 <h1>Forgot password</h1>
             </div>
 
-            <form>
+            <form action="/forgotpass" method="post">
                 <div class="mb-3">
-                    <label for="regEmailInput" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="regEmailInput" aria-describedby="emailHelp">
-                </div>
-                <div class="mb-3 text-center">
-                    <h5>Or</h5>
-                </div>
-                <div class="mb-3">
-                    <label for="regNickname" class="form-label">Nickname</label>
-                    <input type="text" class="form-control" id="regNickname">
+                    <label for="sendEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="sendEmail" aria-describedby="emailHelp">
                 </div>
                 <div class="row mb-3">
                     <div class="col text-center">
                         <button type="submit" class="btn btn-primary">Send</button>
                     </div>
                     <div class="col text-center">
-                        <button type="reset" class="btn btn-danger">Cancel</button>
+                        <a href="/profile" role="button" class="btn btn-danger">Cancel</a>
                     </div>
                 </div>
             </form>
+            <%- include('rendAlert'); %>
         </div>
         <div class="col-lg-4"></div>
     </div>

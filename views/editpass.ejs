@@ -16,29 +16,30 @@
                         <h1>Change password</h1>
                     </div>
 
-                    <form>
+                    <form action="/profile/editpass" method="post">
                         <div class="mb-3">
-                            <label for="oldPasswordInput" class="form-label">Old password</label>
-                            <input type="password" class="form-control" id="oldPasswordInput">
+                            <label for="oldPass" class="form-label">Old password</label>
+                            <input type="password" class="form-control" name="oldPass">
                         </div>
                         <div class="mb-3">
-                            <label for="new1PasswordInput" class="form-label">New password</label>
-                            <input type="password" class="form-control" id="new1PasswordInput">
+                            <label for="newPass1" class="form-label">New password</label>
+                            <input type="password" class="form-control" name="newPass1">
                         </div>
                         <div class="mb-3">
-                            <label for="new2PasswordInput" class="form-label">New password</label>
-                            <input type="password" class="form-control" id="new2PasswordInput">
+                            <label for="newPass2" class="form-label">New password</label>
+                            <input type="password" class="form-control" name="newPass2">
                         </div>
                         <div class="row mb-3">
                             <div class="col text-center">
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                             <div class="col text-center">
-                                <button type="reset" class="btn btn-danger">Cancel</button>
+                                <a href="/profile" role="button" class="btn btn-danger">Cancel</a>
                             </div>
                         </div>
                     </form>
                 </div>
+                <%- include('rendAlert'); %>
             </div>
         </div>
         <div class="col-lg-4"></div>

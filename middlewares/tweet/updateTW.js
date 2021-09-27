@@ -3,12 +3,6 @@ module.exports = function (objRepo){
 	return (req, res, next) => {
 		//Update
 		tweetModel.update(res.locals.newTweetModel);
-		db.saveDatabase((err) =>{
-			if (err){
-				return next(err);
-			} else{
-				return next();
-			}
-		})
+		db.saveDatabase(next);
 	}
 }

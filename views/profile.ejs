@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
-    <!--header-->
-    <%- include('header'); %>
+<!--header-->
+<%- include('header'); %>
 <body class="main-body">
 <div class="container bg-light " >
     <div class="row">
@@ -16,10 +16,8 @@
                     <h1>tweetoo</h1>
                 </div>
                 <div class="row">
-                    <!--    Tweet Template-->
-                    <% contentTweets.forEach(function(tweet){ %>
-                        <%- include('tweetMainTemp',{tweet}); %>
-                    <% }); %>
+                    <!--    Profile Template-->
+                    <%- include('profileTemp'); %>
                 </div>
             </div>
         </div>
@@ -34,3 +32,4 @@
 <%- include('footer'); %>
 </body>
 </html>
+
