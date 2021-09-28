@@ -8,6 +8,7 @@ userModel
 -nickname
 -secret
 -tweet[…]	Array of tweet id
+-photo_id
 
 tweetModel
 -id

@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="row">
+        <form action="/search/tweet" method="get">
+            <div class="row">
+                <div class="col-9">
+                    <input type="search" id="search" class="form-control" name="search">
+                    <span  class="form-text">
+                     min 3 characters
+                    </span>
+                </div>
+                <div class="col-3 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="fas fa-search "></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="container-fluid">
+            <div class="row">
+                <!--    Tweet Template-->
+                <% contentTweets.forEach(function(content){ %>
+                    <%- include('tweetMainTemp',{content}); %>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+    <%- include('rendAlert'); %>
+</div>

@@ -1,5 +1,5 @@
 /**
- *
+ *Input data validation
  * @param objRepo
  * @returns {(function(*, *, *): (*|undefined))|*}
  */

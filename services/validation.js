@@ -1,5 +1,5 @@
 const Joi = require('joi');
-
+//**********************************************************************************************************************
 /**
  * Registration input data validation
  * @param email
@@ -30,6 +30,7 @@ function validateRegData({email, password, nickname}) {
 }
 module.exports.validateRegData = validateRegData;
 
+//**********************************************************************************************************************
 /**
  * Login input data validate
  * @param email
@@ -52,6 +53,7 @@ function validateLogData({email, password}) {
 }
 module.exports.validateLogData = validateLogData;
 
+//**********************************************************************************************************************
 /**
  * Tweet text validate
  * @param tweetText
@@ -70,6 +72,7 @@ function validateTweetText({tweetText}) {
 }
 module.exports.validateTweetText = validateTweetText;
 
+//**********************************************************************************************************************
 /**
  * Change mail validate
  * @param oldEmail
@@ -94,6 +97,7 @@ function validateEditEmail({oldEmail, newEmail}){
 }
 module.exports.validateEditEmail = validateEditEmail;
 
+//**********************************************************************************************************************
 /**
  * Change password validate
  * @param oldPass
@@ -119,6 +123,7 @@ function validateEditPass({oldPass, newPass1, newPass2}){
 }
 module.exports.validateEditPass = validateEditPass;
 
+//**********************************************************************************************************************
 /**
  *
  * @param email

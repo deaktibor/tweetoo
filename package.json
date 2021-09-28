@@ -1,7 +1,7 @@
 {
   "name": "tweetoo",
   "version": "0.0.1",
-  "description": "tweet app",
+  "description": "simple tweet app",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,9 +14,11 @@
     "connect-loki": "^1.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "express-paginate": "^1.0.2",
     "express-session": "^1.17.2",
     "joi": "^17.4.2",
     "lokijs": "^1.5.12",
+    "multer": "^1.4.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

@@ -1,12 +1,10 @@
 //User middleware
 const authMW = require('../middlewares/user/auth');
-//const loginMW = require('../middlewares/user/login');
 const logoutMW = require('../middlewares/user/logout');
-const addPrPhotoMW = require('../middlewares/user/addPrPhoto');
+const modPrPhotoMW = require('../middlewares/user/modPrPhoto');
 const delPrPhotoMW = require('../middlewares/user/delPrPhoto');
 const matchPassMailMW = require('../middlewares/user/matchPassMail');
 const saveEditedUserDataMW = require('../middlewares/user/saveEditedUserData');
-const saveNewPassMW = require('../middlewares/user/saveNewPass');
 const saveRegMW = require('../middlewares/user/saveReg');
 const sendPassMailMW = require('../middlewares/user/sendPassMail');
 const validEditMailMW = require('../middlewares/user/validEditMail');
@@ -36,58 +34,93 @@ const renderMW = require('../middlewares/render');
 const searchMW = require('../middlewares/search');
 const errorHandlerMW = require('../middlewares/errorHandler');
 const sessionMW	= require('../middlewares/sessionHandler');
-const testMW = require('../middlewares/testMW');
+const pagMW = require('../middlewares/pag')
 
 //Validation service
 const validation = require('../services/validation');
-//ID generator sevice
+//ID gen
 const id = require('../services/id')
+//fs
+const fs = require("fs")
+//Pagination
+const paginate = require('express-paginate');
+//Multer
+const multer = require('multer');
+const path = require('path');
+//Multer storage
+const uploadPhotoMW = multer({
+	storage: multer.diskStorage({
+		destination: function (req, file, cb) {
+			return cb(null, './upload/photo')
+		},
+		filename: function (req, file, cb) {
+			const rnd = Math.round(Math.random() * 1E9);
+			const ext = path.extname(file.originalname).toLowerCase();
+			return cb(null,`${file.fieldname}-${Date.now()}-${rnd}${ext}`);
+		}
+	})
+})
 
+
+/**
+ *
+ * @param app
+ * @param db
+ * @param userModel
+ * @param tweetModel
+ * @returns {*}
+ */
 module.exports = function (app, db, userModel, tweetModel) {
 	const objRepo = {
 		db,
 		userModel,
 		tweetModel,
 		validation,
-		id
+		id,
+		fs,
+		paginate,
 	};
 
-		//**Fooldal (home screen|
+//**********************************************************************************************************************
+		// Pagination
+		app.use(paginate.middleware(10, 50));
+//**********************************************************************************************************************
+		//Fooldal (home screen|
 		app.get('/',
 			authMW(objRepo),
 			findMyTwMW(objRepo),
+			pagMW(objRepo),
 			renderMW(objRepo, 'index'));
-
-		//**Registracio screen
+//**********************************************************************************************************************
+		//Registracio screen
 		app.get('/reg',
 			renderMW(objRepo, 'registration'));
-		//**Registracio
+		//Registracio
 		app.post('/reg',
 			validRegMW(objRepo),
 			saveRegMW(objRepo),
 			(req, res, next) => res.redirect('/'));
-
-		//**Login screen
+//**********************************************************************************************************************
+		//Login screen
 		app.get('/login',
 			renderMW(objRepo, 'login'));
-		//**Login
+		//Login
 		app.post('/login',
 			validLogMW(objRepo),
 			sessionMW(objRepo),
 			(req, res, next) => res.redirect('/'));
-
-		//**Tweets screen
+//**********************************************************************************************************************
+		//Tweets screen
 		app.get('/tweet',
 			authMW(objRepo),
 			readPrTwMW(objRepo),
 			renderMW(objRepo, 'myTweets'));
-
-		//**Tweet screen (new/add, edit|
+		//Tweet screen (new/add, edit|
 		app.get('/tweet/add',
 			authMW(objRepo),
 			//matchTwMW(objRepo),
 			renderMW(objRepo, 'tweet'));
-		//**Tweet add/new
+		//Tweet add/new
 		app.post('/tweet/add',
 			authMW(objRepo),
 			validTwMW(objRepo),
@@ -96,27 +129,24 @@ module.exports = function (app, db, userModel, tweetModel) {
 			addUserTwIdMW(objRepo),
 			sessionMW(objRepo),
 			(req, res, next) => res.redirect('/tweet'));
-
-		//**Tweet torlese del
+		//Tweet torlese del
 		app.get('/tweet/del/:id',
 			authMW(objRepo),
 			delTwMW(objRepo),
 			delUserTwMW(objRepo),
 			sessionMW(objRepo),
 			(req, res, next) => res.redirect('/tweet'));
-
-		//**Tweet publikalas public
+		//Tweet publikalas public
 		app.get('/tweet/public/:id',
 			authMW(objRepo),
 			publicTwMW(objRepo),
 			(req, res) => res.redirect('/tweet'));
-
-		//**Tweet modositas screen (edit tweet)
+		//Tweet modositas screen (edit tweet)
 		app.get('/tweet/edit/:id',
 			authMW(objRepo),
 			matchTwMW(objRepo),
 			renderMW(objRepo, 'tweet'));
-		//**Tweet modositas
+		//Tweet modositas
 		app.post('/tweet/edit/:id',
 			authMW(objRepo),
 			matchTwMW(objRepo),
@@ -124,87 +154,86 @@ module.exports = function (app, db, userModel, tweetModel) {
 			editTwMW(objRepo),
 			updateTwMW(objRepo),
 			(req, res) => res.redirect('/tweet'));
-
-		//**Tweet love
+		//Tweet love
 		app.post('/tweet/love/:id',
 			authMW(objRepo),
 			matchTwLoveMW(objRepo),
 			loveTwMW(objRepo),
 			(req, res) => res.redirect('/'));
-
-		//**Profil screen (fiok)
+//**********************************************************************************************************************
+		//Profil screen (fiok)
 		app.get('/profile',
 			authMW(objRepo),
 			renderMW(objRepo, 'profile'));
-
-	//TODO Implemented
 		//Profil foto hozaadasa (add profile photo)
-		app.get('/profile/addphoto',
+		app.post('/profile/uploadphoto',
 			authMW(objRepo),
-			addPrPhotoMW(objRepo),
-			renderMW(objRepo, 'profile'));
-
+			uploadPhotoMW.single('profilePhoto'),
+			modPrPhotoMW(objRepo),
+			saveEditedUserDataMW(objRepo),
+			sessionMW(objRepo),
+			(req, res) => res.redirect('/profile'));
 		//Profil foto torlese (delete profile photo)
-		app.get('/profile/delphoto',
+		app.get('/profile/delphoto/:id',
 			authMW(objRepo),
 			delPrPhotoMW(objRepo),
-			renderMW(objRepo, 'profile'));
-
+			saveEditedUserDataMW(objRepo),
+			sessionMW(objRepo),
+			(req, res) => res.redirect('/profile'));
+//**********************************************************************************************************************
 		//Kereses screen (search screen)
 		app.get('/search',
 			authMW(objRepo),
 			renderMW(objRepo, 'search'));
-			//Kereses (search)
-		app.post('/search/param',
+		//Kereses (search)
+		app.get('/search/tweet',
 			authMW(objRepo),
 			searchMW(objRepo),
+			findMyTwMW(objRepo),
+			pagMW(objRepo),
 			renderMW(objRepo, 'search'));
-
-		//**Elfelejtett jelszó keresése screen
+//**********************************************************************************************************************
+		//Elfelejtett jelszó keresése screen
 		app.get('/forgotpass',
 			renderMW(objRepo, 'forgotpass'));
-		//**Elfelejtett jelszó keresése
+		//Elfelejtett jelszó keresése
 		app.post('/forgotpass',
 			validForgotPassMW(objRepo),
 			matchPassMailMW(objRepo),
 			sendPassMailMW(objRepo),
 			(req, res) => res.redirect('/'));
-
-		//**Email cím módosítása screen
+//**********************************************************************************************************************
+		//Email cím módosítása screen
 		app.get('/profile/editmail',
 			authMW(objRepo),
 			renderMW(objRepo, 'editmail'));
-		//**Email cím módosítása
+		//Email cím módosítása
 		app.post('/profile/editmail',
 			authMW(objRepo),
 			validEditMailMW(objRepo),
 			saveEditedUserDataMW(objRepo),
 			sessionMW(objRepo),
 			(req, res) => res.redirect('/profile'));
-
-		//**Jelszó módosítasa screen
+//**********************************************************************************************************************
+		//Jelszó módosítasa screen
 		app.get('/profile/editpass',
 			authMW(objRepo),
 			renderMW(objRepo, 'editpass'));
-		//**Jelszó módosítasa
+		//Jelszó módosítasa
 		app.post('/profile/editpass',
 			authMW(objRepo),
 			validEditPassMW(objRepo),
 			saveEditedUserDataMW(objRepo),
 			(req, res) => res.redirect('/profile'));
-
-		//**Kijelentkezes (logout)
+//**********************************************************************************************************************
+		//Kijelentkezes (logout)
 		app.get('/logout',
 			logoutMW(objRepo),
 			(req, res) => res.redirect('/'));
-
-	//test MW
-	app.get('/test',
-		testMW(objRepo));
-		//(req, res) => res.redirect('/'));
-
+//**********************************************************************************************************************
 		//General error handling for all middleware chain
 		app.use(errorHandlerMW());
+//**********************************************************************************************************************
 
 	return app;
 }

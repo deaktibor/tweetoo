@@ -22,21 +22,29 @@ module.exports = function (objRepo){
 			return res.render("editmail", res.locals);
 		}
 		//Check if edited user data is exist && is yours
-		let checkUser = userModel.findOne({email: result.value.oldEmail, id: res.locals.user.id});
-		if (checkUser === null){
+		const userExist = userModel.findOne({email: result.value.oldEmail, id: res.locals.user.id});
+		if (userExist === null){
 			res.locals.rendAlert = {
 				type: "alert-danger",
 				message: `E-mail for change not found`}
 			return res.render("editmail", res.locals);
 		}
 		//Compare new email with olg email
-		if (checkUser.email === result.value.newEmail){
+		if (userExist.email === result.value.newEmail){
 			res.locals.rendAlert = {
 				type: "alert-danger",
 				message: `New email may not be the same`}
 			return res.render("editmail", res.locals);
 		}
-		res.locals.newUserData = {...checkUser, email: result.value.newEmail}
+		//Check if new email is exist
+		const emailExist = userModel.findOne({email: result.value.newEmail});
+		if (emailExist){
+			res.locals.rendAlert = {
+				type: "alert-danger",
+				message: `E-mail is exist`}
+			return res.render("editmail", res.locals);
+		}
+		res.locals.newUserData = {...userExist, email: result.value.newEmail}
 		return next();
 	}
 }

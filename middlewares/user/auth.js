@@ -6,22 +6,27 @@
 module.exports = function (objRepo){
 	const {tweetModel, userModel} = objRepo;
 	return (req, res, next) => {
-
+		res.locals.pageCount = 0;
 		//Chceck user session
 		if (typeof req.session.user === 'undefined'){
 			//Visitor
 			//Some content for visitor
-			let contentTweets = tweetModel
+			const joinData = tweetModel
 				.chain()
 				.find({isPublic: true})
 				.simplesort('publicTimestamp', {desc: true})
 				.limit(5)
+				.eqJoin(userModel, 'user_id', 'id')
 				.data();
 
-			res.locals.contentTweets = contentTweets.map((tweet) => {
-				const container = {...tweet};
-				container.loveCount = tweet.love_id.length;
-				container.user = userModel.findOne({tweet: { '$contains' : tweet.id }});
+			res.locals.contentTweets = joinData.map((joinData) => {
+				const container = {
+					tweet: {
+						...joinData.left,
+						loveCount: joinData.left.love_id.length,
+					},
+					user: {...joinData.right}
+				};
 				return container;
 			})
 
@@ -31,6 +36,7 @@ module.exports = function (objRepo){
 					message: "Public tweets does not exist"}
 				console.log("Public tweets does not exist");
 			}
+
 
 		res.locals.rendAlert = {
 				type: "alert-primary",
@@ -43,6 +49,8 @@ module.exports = function (objRepo){
 		//set to default
 		res.locals.matchTweet = {};
 		res.locals.delTweet = {};
+		res.locals.contentTweets = [];
+
 		return next();
 	}
 }

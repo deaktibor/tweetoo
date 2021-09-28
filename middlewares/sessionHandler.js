@@ -10,7 +10,7 @@ module.exports = function (objRepo){
 		//Load user data
 		const user = userModel.findOne({id: res.locals.user.id});
 		let sessionUserData = {...user};
-		//Delete unnecessary property
+		//Delete unnecessary property fo session store
 		delete sessionUserData.password;
 		delete sessionUserData.secret;
 		delete sessionUserData.meta;
@@ -18,14 +18,7 @@ module.exports = function (objRepo){
 		//User session data
 		req.session.user = sessionUserData;
 
-		req.session.save ((err) =>{
-			if (err){
-				return next(err);
-			}else {
-				return next();
-			}
-		})
-
+		req.session.save (next);
 	}
 }
 

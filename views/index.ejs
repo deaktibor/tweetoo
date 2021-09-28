@@ -3,7 +3,10 @@
     <!--header-->
     <%- include('header'); %>
 <body class="main-body">
-<div class="container bg-light " >
+<div class="container bg-light">
+    <div class="row d-flex justify-content-center text-center">
+        <h1>tweetoo</h1>
+    </div>
     <div class="row">
         <div class="class col-12 col-md-3">
             <!--Main menu-->
@@ -13,21 +16,20 @@
             <!--Content-->
             <div class="container-fluid">
                 <div class="row">
-                    <h1>tweetoo</h1>
-                </div>
-                <div class="row">
                     <!--    Tweet Template-->
-                    <% contentTweets.forEach(function(tweet){ %>
-                        <%- include('tweetMainTemp',{tweet}); %>
+                    <% contentTweets.forEach(function(content){ %>
+                        <%- include('tweetMainTemp',{content}); %>
                     <% }); %>
                 </div>
             </div>
+            <%- include('pag'); %>
         </div>
         <%- include('rendAlert'); %>
         <div class="class col-12 col-md-3">
 
         </div>
     </div>
+
 </div>
 
 <!--footer-->

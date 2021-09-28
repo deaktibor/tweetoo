@@ -12,17 +12,11 @@ module.exports = function (objRepo){
 			password: res.locals.regData.password,
 			nickname: res.locals.regData.nickname,
 			secret: id.getNewId(),
-			tweet: []
+			tweet: [],
+			photo_id: null
 		});
 		db.saveDatabase(next);
 	}
 }
 
-/*
-userModel
--id
--email
--password
--nickname
--secret
--tweet[…]	Array of tweet id*/
+//TODO V2 crypt pass

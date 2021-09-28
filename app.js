@@ -7,6 +7,7 @@ const LokiStore = require('connect-loki')(session);
 const initdb = require('./services/db');
 const appRoutes = require('./routes');
 
+
 // for parsing application/json
 app.use(bodyParser.json());
 // for parsing application/x-www-form-urlencoded
@@ -28,14 +29,14 @@ app.use(session({
 app.set('view engine', 'ejs');
 
 /**
- *Enasble static files
+ *Enable static files
  */
-app.use(express.static('public'));
+app.use('/public',express.static('public'));
+app.use('/upload/photo', express.static('upload/photo'));
 
 /**
  * Init
  */
-
 initdb((err, db, userModel, tweetModel) =>{
 	if (err){
 		return console.error(err);
