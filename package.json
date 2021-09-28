@@ -1,6 +1,6 @@
 {
   "name": "tweetoo",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "simple tweet app",
   "main": "app.js",
   "scripts": {
